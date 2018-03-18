@@ -7,7 +7,8 @@ add_definitions(-D_GLIBCXX_USE_CXX11_ABI=0)
 set(HEADERS include/StringVariable.h)
 set(SOURCES src/Stringvariable.cpp)
 
-add_library(StringVariables SHARED ${SOURCES})
+#Using ${HEADERS} so its not greyed in CLion
+add_library(StringVariables SHARED ${SOURCES} ${HEADERS})
 add_library(StringVariablesStatic STATIC ${SOURCES})
 
 install(
@@ -18,7 +19,7 @@ install(
 INSTALL (
         DIRECTORY ${CMAKE_SOURCE_DIR}/include/
         DESTINATION include
-        FILES_MATCHING PATTERN "*.h*"
+		COMPONENT ${HEADERS}
 )
 
 add_executable(StringVariableTest main.cpp)
