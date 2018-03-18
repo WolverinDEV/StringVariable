@@ -15,13 +15,11 @@ namespace strvar {
 	namespace exceptions {
 		class StrvarException : public std::exception {
 			public:
-				StrvarException(std::string message) : message(std::move(message)) {}
-
+				explicit StrvarException(std::string message) : message(std::move(message)) {}
 				StrvarException(const StrvarException &ref) : message(ref.message) {}
+				StrvarException(StrvarException &&ref) noexcept : message(ref.message) {}
 
-				StrvarException(StrvarException &&ref) : message(ref.message) {}
-
-				const char *what() const noexcept {
+				const char *what() const noexcept override {
 					return this->message.c_str();
 				}
 
