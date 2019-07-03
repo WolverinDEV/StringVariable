@@ -42,11 +42,11 @@ endmacro()
 configure_msvc_runtime()
 
 #Using ${HEADERS} so its not greyed in CLion
-add_library(StringVariables SHARED ${SOURCES} ${HEADERS})
+add_library(StringVariablesShared SHARED ${SOURCES} ${HEADERS})
 add_library(StringVariablesStatic STATIC ${SOURCES})
 
 install(
-        TARGETS StringVariables StringVariablesStatic
+        TARGETS StringVariablesShared StringVariablesStatic
         ARCHIVE DESTINATION lib
         LIBRARY DESTINATION lib
 )
@@ -57,4 +57,4 @@ INSTALL (
 )
 
 add_executable(StringVariableTest main.cpp)
-target_link_libraries(StringVariableTest StringVariables)
+target_link_libraries(StringVariableTest StringVariablesStatic)
