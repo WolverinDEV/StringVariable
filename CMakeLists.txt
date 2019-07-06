@@ -6,6 +6,7 @@ set(CMAKE_CXX_STANDARD 11)
 set(HEADERS include/StringVariable.h)
 set(SOURCES src/Stringvariable.cpp)
 
+set(CMAKE_VERBOSE_MAKEFILE ON)
 macro(configure_msvc_runtime)
 	if(MSVC)
 		# Default to statically-linked runtime.
@@ -23,14 +24,20 @@ macro(configure_msvc_runtime)
 				CMAKE_CXX_FLAGS_MINSIZEREL
 				CMAKE_CXX_FLAGS_RELEASE
 				CMAKE_CXX_FLAGS_RELWITHDEBINFO
-				)
+		)
 		if(${MSVC_RUNTIME} STREQUAL "static")
+			message("Using static MSVC libraries")
 			foreach(variable ${variables})
 				if(${variable} MATCHES "/MD")
 					string(REGEX REPLACE "/MD" "/MT" ${variable} "${${variable}}")
 				endif()
 			endforeach()
+
+			if (CMAKE_BUILD_TYPE STREQUAL "RelWithDebInfo")
+				string(REGEX REPLACE "/MT" "/MTd" CMAKE_CXX_FLAGS_RELWITHDEBINFO "${CMAKE_CXX_FLAGS_RELWITHDEBINFO}")
+			endif ()
 		else()
+			message("Using shared MSVC libraries")
 			foreach(variable ${variables})
 				if(${variable} MATCHES "/MT")
 					string(REGEX REPLACE "/MT" "/MD" ${variable} "${${variable}}")
