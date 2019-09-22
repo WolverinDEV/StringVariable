@@ -8,9 +8,8 @@
 #include <iostream>
 
 namespace strvar {
-	class StringProperties;
-
-	class Value;
+    struct StringProperties;
+	struct Value;
 
 	namespace exceptions {
 		class StrvarException : public std::exception {
